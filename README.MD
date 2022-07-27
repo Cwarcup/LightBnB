@@ -36,3 +36,11 @@ lightbnb=# \dt
  public | users | table | vagrant
 (1 row)
 ```
+
+
+## Seeds
+
+user's password (it's the word "password" hashed with bcrypt):
+```
+$2a$10$FB/BOAVhpuLvpOREQVmvmezD4ED/.JBIDRh70tGevYzYzQgFId2u.
+```
