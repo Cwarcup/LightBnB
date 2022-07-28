@@ -25,8 +25,11 @@ const pool = new Pool({
  * @return {Promise<{}>} A promise to the user.
  */
 const getUserWithEmail = function (email) {
+  const text = 'SELECT * FROM users WHERE email = $1';
+  const values = [email];
+
   return pool
-    .query('SELECT * FROM users WHERE email = $1', [email])
+    .query(text, values)
     .then((result) => {
       return result.rows[0];
     })
@@ -43,8 +46,11 @@ exports.getUserWithEmail = getUserWithEmail;
  * @return {Promise<{}>} A promise to the user.
  */
 const getUserWithId = function (id) {
+  const text = 'SELECT * FROM users WHERE id = $1';
+  const values = [id];
+
   return pool
-    .query('SELECT * FROM users WHERE id = $1', [id])
+    .query(text, values)
     .then((res) => {
       return res.rows[0];
     })
@@ -61,10 +67,18 @@ exports.getUserWithId = getUserWithId;
  * @return {Promise<{}>} A promise to the user.
  */
 const addUser =  function (user) {
-  const userId = Object.keys(users).length + 1;
-  user.id = userId;
-  users[userId] = user;
-  return Promise.resolve(user);
+  const text = 'INSERT INTO users (name, password, email) VALUES ($1, $2, $3) RETURNING *';
+  const values = [user.name, user.password, user.email];
+
+  return pool
+    .query(text, values)
+    .then((res) => {
+      console.log('Added user: ', res.rows[0]);
+    })
+    .catch((err) => {
+      console.error('Error adding user: ', err);
+    });
+    
 };
 exports.addUser = addUser;
 
@@ -89,8 +103,11 @@ exports.getAllReservations = getAllReservations;
  * @return {Promise<[{}]>}  A promise to the properties.
  */
 const getAllProperties = (options, limit = 10) => {
+  const text = 'SELECT * FROM properties LIMIT $1';
+  const values = [limit];
+  
   return pool
-    .query('SELECT * FROM properties LIMIT $1', [limit])
+    .query(text, values)
     .then((result) => {
       return result.rows;
     })
