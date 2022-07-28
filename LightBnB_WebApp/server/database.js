@@ -31,7 +31,7 @@ const getUserWithEmail = function (email) {
       return result.rows[0];
     })
     .catch((err) => {
-      console.error(err);
+      console.error('Error getting user with email: ', err);
       return null;
     });
 };
@@ -43,7 +43,14 @@ exports.getUserWithEmail = getUserWithEmail;
  * @return {Promise<{}>} A promise to the user.
  */
 const getUserWithId = function (id) {
-  return Promise.resolve(users[id]);
+  return pool
+    .query('SELECT * FROM users WHERE id = $1', [id])
+    .then((res) => {
+      return res.rows[0];
+    })
+    .catch((err) => {
+      console.error('Error getting user with id: ', err);
+    });
 };
 exports.getUserWithId = getUserWithId;
 
@@ -88,7 +95,7 @@ const getAllProperties = (options, limit = 10) => {
       return result.rows;
     })
     .catch((err) => {
-      console.log(err.message);
+      console.log('Error getting all properties: ', err);
     });
 };
 exports.getAllProperties = getAllProperties;
