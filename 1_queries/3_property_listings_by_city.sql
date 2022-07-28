@@ -51,32 +51,3 @@ ORDER BY
   cost_per_night
 LIMIT
   1;
-
-lightbnb = # SELECT
-lightbnb - #   properties.*,
-lightbnb - #   avg(property_reviews.rating) as average_rating
-lightbnb - # FROM
-lightbnb - #   properties
-lightbnb - #   JOIN property_reviews ON properties.id = property_reviews.property_id
-lightbnb - # GROUP BY
-lightbnb - #   properties.id
-lightbnb - # HAVING
-lightbnb - #   avg(property_reviews.rating) >= 5
-lightbnb - # ORDER BY
-lightbnb - #   cost_per_night
-lightbnb - # LIMIT
-lightbnb - #   1;
-SELECT
-  properties.*,
-  avg(property_reviews.rating) as average_rating
-FROM
-  properties
-  JOIN property_reviews ON properties.id = property_reviews.property_id
-GROUP BY
-  properties.id
-HAVING
-  avg(property_reviews.rating) >= $ 2
-ORDER BY
-  cost_per_night
-LIMIT
-  $ 2
